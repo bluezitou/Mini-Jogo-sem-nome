@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini-Jogo sem nome</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+<body>
+
+<p style="color: green; font-size: 50px; visibility: hidden" id="par">Clique!</p>
+<br><br>
+<button onclick="clicou()" style="font-size: 35px">Clique Aqui!</button>
+  <br><br>
+  <p id="scores">Pontuação:</p>
+  <br>
+  <p id="highscore">Recorde:</p>
+  
+</body>
+<script>
+let texto = document.querySelector("#par");
+
+let score = 0;
+let scores = document.querySelector("#scores");
+
+let recorde = document.querySelector("#highscore");
+let highscore = Number(localStorage.getItem("highscore")) || 0;
+
+scores.innerText = `Pontuacao: ${score}`;
+recorde.innerText = `Recorde: ${highscore}`;
+
+function aleatoriedade() {
+  let tempo = Math.random() * 3000;
+
+  setTimeout(() => {
+    texto.style.visibility = "visible";
+
+    setTimeout(() => {
+      texto.style.visibility = "hidden";
+      aleatoriedade();
+    }, 500);
+
+  }, tempo);
+}
+
+aleatoriedade();
+
+function clicou() {
+  if (texto.style.visibility !== "visible") {
+
+    if (score > highscore) {
+      highscore = score;
+      localStorage.setItem("highscore", highscore);
+    }
+
+    recorde.innerText = `Recorde: ${highscore}`;
+    alert("Perdeu! Voce clicou fora de hora!");
+    document.body.innerHTML = "Resete a pagina para reiniciar";
+
+  } else {
+    score++;
+    scores.innerText = `Pontuacao: ${score}`;
+    texto.style.visibility = "hidden";
+  }
+}
+</script>
+</html>
